@@ -21,17 +21,17 @@ const commonFunc = (_this, chart) => {
   }
 }
 
-const initChart = ((type) => {
+const initChart = ((type, theme) => {
   switch (type) {
     case 'h5':
       return (_this) => {
-        let chart = echarts.init(_this.chartRef.vnode.dom)
+        let chart = echarts.init(_this.chartRef.vnode.dom, theme)
         commonFunc(_this, chart)
       }
     case 'weapp':
       return (_this) => {
         _this.chartRef.init((canvas, width, height) => {
-          const chart = echarts.init(canvas, null, {
+          const chart = echarts.init(canvas, theme, {
             width: width,
             height: height
           })
@@ -53,7 +53,8 @@ export default class Chart extends Taro_.Component {
   }
 
   componentDidMount() {
-    initChart(this)
+    const { theme } = this.props
+    initChart(this, theme)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -133,5 +134,6 @@ Chart.defaultProps = {
   customStyle: '',
   loading: null,
   loadingConf: null,
-  onBeforeSetOption: null
+  onBeforeSetOption: null,
+  theme: null
 }
